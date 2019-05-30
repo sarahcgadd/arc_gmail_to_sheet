@@ -1,6 +1,6 @@
 # arc_gmail_to_sheet
 
-google apps code to take information from job completed emails from University of Leeds ARC and put it in a spreadsheet
+google apps code to take information from job completed emails from UofL ARC scheduler and put it in a spreadsheet
 
 Based on code from here(http://bionicteaching.com/auto-logging-email-via-google-script/) and here (https://stackoverflow.com/questions/14956479/remove-html-formatting-when-getting-body-of-a-gmail-message-in-javascript)
 
