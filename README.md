@@ -7,7 +7,7 @@ Based on code from here(http://bionicteaching.com/auto-logging-email-via-google-
 You could probably make this code better
 
 To set up:
-1) Make a filter in your arc gmail account to label emails from root and containing "complete" with the label "complete"
+1) Make a filter in your arc gmail account to label emails from root and containing the word "complete" with the label "complete"
 2) Make a google sheets spreadsheet with a sheet called "data" (using the same gmail account as you get your arc emails in)
 3) Click on tools, script editor and paste the code from the Scripts file on here in there
 4) Click on the strange time icon and set the triggers for this script to run -- I run it every time I open the sheet.
