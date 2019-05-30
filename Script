@@ -1,0 +1,101 @@
+function getTextFromHtml(html) {
+  return getTextFromNode(Xml.parse(html, true).getElement());
+}
+
+var _itemNum; // Used to lead unordered & ordered list items.
+
+function getTextFromNode(x) {
+  switch(x.toString()) {
+    case 'XmlText': return x.toXmlString();
+    case 'XmlElement':
+      var name = x.getName().getLocalName();
+      Logger.log(name);
+      var pre = '';
+      var post = '';
+      switch (name) {
+        case 'br':
+        case 'p':
+          pre = '';
+          post = '\n';
+          break;
+        case 'ul':
+          pre = '';
+          post = '\n';
+          itemNum = 0;
+          break;
+        case 'ol':
+          pre = '';
+          post = '\n';
+          _itemNum = 1;
+          break;
+        case 'li':
+          pre = '\n' + (_itemNum == 0 ? ' - ' : (' '+ _itemNum++ +'. '));
+          post = '';
+          break;
+        default:
+          pre = '';
+          post = '';
+          break;
+      }
+      return pre + x.getNodes().map(getTextFromNode).join('') + post;
+    default: return '';
+  }
+}
+
+function myFunction() {
+   
+//this is just the stuff that recognizes what spreadsheet you're in
+   var ss = SpreadsheetApp.getActiveSpreadsheet();
+   var sheets = ss.getSheets();
+   var sheet = ss.getSheetByName("data"); //gets the right sheet
+   
+//this chunk gets the date info  
+
+ 
+//****************************************************  
+//searches your GMail for emails matching two things, written after yesterday and with the label support
+  var query = "label:complete";
+   
+  var threads = GmailApp.search(query);
+  Logger.log('threads len ' + threads.length);
+   
+  Logger.log(query);
+   
+  for (var i = 0; i < threads.length; i++) {
+    var messages = threads[i].getMessages();
+    Logger.log(messages);    
+    for (var m = 0; m < messages.length; m++) {
+       var supportStats = [];
+      
+//here's where you decide what parts of the email you want
+      var body = getTextFromHtml(messages[m].getBody()); //from field
+      body = body.replace(/(?:\r\n|\r|\n)/g, '=');
+      var bodyarray = body.split("=")
+      Logger.log(body);
+      
+     
+ 
+//decides what found emails match yesterday's date and push them to an array to write to the spreadsheet
+    
+      supportStats.push(bodyarray[0]);
+      supportStats.push(bodyarray[2]);
+      supportStats.push(bodyarray[4]);
+      supportStats.push(bodyarray[6]);
+      supportStats.push(bodyarray[8]);
+      supportStats.push(bodyarray[10]);
+      supportStats.push(bodyarray[12]);
+      supportStats.push(bodyarray[14]);
+      supportStats.push(bodyarray[16]);
+      supportStats.push(bodyarray[18]);
+      supportStats.push(bodyarray[20]);
+      supportStats.push(bodyarray[22]);
+      
+      
+      SpreadsheetApp.getActiveSheet().appendRow(supportStats); //writes to the spreadsheet
+      
+    }
+ var label = GmailApp.getUserLabelByName("complete");
+    label.removeFromThread(threads[i])
+  }          
+ 
+}
